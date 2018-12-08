@@ -2,51 +2,44 @@
 session_start();
 require 'head.php';
 echo '<title>Tool leech wapseo By Hehe9x</title>';
-if (!isset($_POST['domain']) && (!isset($_SESSION["domain"]) && !isset($COOKIE["domain"])))
+if (!isset($_POST['user']) && (!isset($_SESSION["user"]) && !isset($COOKIE["user"])))
 {
 	echo '<b>Đăng nhập</b><br />
-	<form method="post">
-	<b>Domain</b>: <input name="domain" type="text">
-	<select name="sub">
-	<option value="">Park Domain</option>
-	<option value=".wapseo.mobi">.WapSEO.Mobi</option>
-	<option value=".ovn.mobi">.Ovn.Mobi</option>
-	<option value=".ngot.in">.Ngot.In</option>
-	<option value=".botay.in">.Botay.In</option>
-	</select><br />
-	<b>Mật khẩu:</b>
-	<input type="password" name="pass"><br />
-	<input type="checkbox" name="nho">Nhớ cho lần sau<br />
-	<input type="submit" value="Đăng nhập" ></form><p>Server phụ:<a href="http://h.leech.tk">http://h.leech.tk</a> (host cũ) </p>';
+	<div class="menu">Đăng nhập</div><div class="list"><div class="list-group-item">
+<form method="post">
+Tên đăng nhập<br>
+<input name="user" value="" /></div></div>
+Mật khẩu<br><div><input name="pass" maxlength="32" /></div><button type="submit">Đăng nhập</button></div></div>
+</div>  ';
 }
-elseif (isset($_POST['domain']) &&(!isset($_SESSION["domain"]) || !isset($_COOKIE["domain"])))
+elseif (isset($_POST['user']) &&(!isset($_SESSION["user"]) || !isset($_COOKIE["user"])))
 {
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, 'http://wapseo.mobi/dangnhap.html');
+	curl_setopt($ch, CURLOPT_URL, 'http://top18.viwap.com/manager');
 	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, 'user='.$_POST['domain'].$_POST['sub'].'&pass='.$_POST['pass'].'&submit=Đăng Nhập');
+	curl_setopt($ch, CURLOPT_POSTFIELDS, 'user='.$_POST['user'].'&pass='.$_POST['pass'].'&submit=Đăng Nhập');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, 'hehe/'.$_POST['domain'].$_POST['sub'].'.txt');
+	curl_setopt($ch, CURLOPT_COOKIEJAR, 'hehe/'.$_POST['user'].'.txt');
 	curl_exec($ch);
-	curl_setopt($ch, CURLOPT_URL, 'http://wapseo.mobi/panel/index.php?mod=new_topic');
+	curl_setopt($ch, CURLOPT_URL, 'http://top18.viwap.com/manager/post');
 	$cm = curl_exec($ch);
-	$cm = explode('<span class="red">*</span> Mục hiển thị tại trang chủ:<br/>',$cm);
-	$cm = explode('<label for="upload">',$cm[1]);
+	$cm = explode('Thể loại:',$cm);
+	$cm = explode('<div class="list-group-item">Ảnh đại diện:',$cm[1]);
 	$cm = trim($cm[0]);
 	curl_exec($ch);
 	curl_close($ch);
 	if (!$cm)
 	{
 		echo 'Không thể đăng nhập <a href="">Thử lại</a>';
-		unlink('hehe/'.$_POST['domain'].$_POST['sub'].'.txt');
+		unlink('hehe/'.$_POST['user'].'.txt');
 	}
 	else 
 	{
-		$_SESSION["domain"] = $_POST['domain'].$_POST['sub'];
+		$_SESSION["user"] = $_POST['user'];
 		$_SESSION["cm"] = $cm;
 		if(isset($_POST['nho']))
 		{
-		setcookie("domain",$_SESSION["domain"],time() + 3600000);
+		setcookie("domain",$_SESSION["user"],time() + 3600000);
 		setcookie("cm",$_SESSION["cm"],time() + 3600000);
 		}
 		echo '<meta http-equiv="refresh" content="1;url=index.php">Đăng nhập thành công.... <br /><a href="/">Ấn vào đây nếu trình duyệt không tự chuyển</a>';
@@ -54,14 +47,14 @@ elseif (isset($_POST['domain']) &&(!isset($_SESSION["domain"]) || !isset($_COOKI
 }
 elseif (isset($_GET['xoa']))
 {
-	setcookie("domain",$_SESSION["domain"],time() - 3600000);
+	setcookie("user",$_SESSION["user"],time() - 3600000);
 	setcookie("cm",$_SESSION["cm"],time() - 3600000);
-	unlink('hehe/'.$_SESSION["domain"].'.txt');
+	unlink('hehe/'.$_SESSION["user"].'.txt');
 	session_destroy();
 	echo '<meta http-equiv="refresh" content="1;url=/index.php"><div class="hehe">Đã thoát</div>';
 	
 }
-elseif(isset($_SESSION['domain']))
+elseif(isset($_SESSION['user']))
 {
 	echo '<a href="360.php">leech truyện ngắn doctruyen360.com</a><br />
 	<a href="xemanh.php">Leech ảnh xemanhdep.com</a><br />
