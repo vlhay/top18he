@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require 'head.php';
 echo '<title>Tool leech wapseo By Hehe9x</title>';
