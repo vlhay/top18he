@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 set_time_limit(1000);
 include 'set.php';
 include 'function.php';
@@ -21,12 +21,12 @@ $checktoken = trim(file_get_contents($wap4.'/check.php?id='.$idfb));
             // Tức là thuộc tính error > 0
             if ($error > 0)
             {
-header("Location: '.$wap4.'/error?type=errorfile");  
+header("Location: ".$wap4."/error?type=errorfile");  
                 echo 'File Upload Bị Lỗi';
             }
             elseif ($size > 15728639)
             {
-header("Location: '.$wap4.'/error?type=maxsize");  
+header("Location: ".$wap4."/error?type=maxsize");  
                 echo 'File quA dung luong';
             }
             else {
@@ -36,7 +36,7 @@ $fp = @fopen('folder/'.$name, "r");
   
 // Kiểm tra file mở thành công không
 if (!$fp) {
-header("Location: '.$wap4.'/error?type=notopen");  
+header("Location: ".$wap4."/error?type=notopen");  
     echo 'Mở file không thành công';
 }
 else
@@ -51,7 +51,7 @@ tao_file('/upload/'.$namefolder.'/'.$filename,$data);
 tao_w4_khach($namefolder,$filename,$type,$size);
 unlink('folder/'.$name);
     $id = file_get_contents('id.txt');
-header("Location: '.$wap4.'/files/".$id);  
+header("Location: ".$wap4."/files/".$id);  
     echo $id;
     echo 'Upload thanh cong';
 ///////upload//////
@@ -59,7 +59,7 @@ header("Location: '.$wap4.'/files/".$id);
             }
         }
         else{
-header("Location: '.$wap4.'/error?type=nofile");  
+header("Location: ".$wap4."/error?type=nofile");  
             echo 'Bạn chưa chọn file upload';
         }
     }
